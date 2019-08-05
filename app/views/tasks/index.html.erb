@@ -1,15 +1,16 @@
 <% if logged_in? %>
   <p>ログイン完了ユーザ: <%= current_user.name %></p>
   <h1>Your Tasklist</h1>
-
-<ul>
-  <% @tasks.each do |task| %>
-    <li><%= link_to task.id, task %> : <%= task.content %> ( <%= task.status %> )</li>
-  <% end %>
-</ul>
-
-<%= link_to "新規タスク作成", new_task_path %>
-<% else %>
+  
+  <%= render 'tasks/tasks', tasks: @tasks %>
+      <%= form_with(model: @task, local: true) do |f| %>
+        <div class="form-group">
+          新規タスク作成<%= f.text_area :content, class: 'form-control' %>
+          状態<%= f.text_area :status, class: 'form-control' %>
+        </div>
+        <%= f.submit 'Post', class: 'btn btn-primary btn-block' %>
+      <% end %>
+    <% else %>
   <div class="center jumbotron">
     <div class="text-center">
       <h1>Tasklistへようこそ！</h1>
